@@ -12,7 +12,7 @@ export const colors = {
     primaryContrast: "white",
     secondary: "white",
     secondaryContrast: "#D8000C",
-    background: "#FFBABA"
+    background: "rgba(255, 41, 41, 0.5)"
   }
 };
 

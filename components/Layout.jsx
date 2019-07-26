@@ -32,6 +32,7 @@ export const Body = styled.body`
     display: flex;
     flex-direction: column;
     margin: 0;
+    overflow: hidden auto;
 `;
 
 export const Main = styled.main`
@@ -47,5 +48,6 @@ export const Actions = styled.footer`
     > * {
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
+        flex: 0 0 auto;
     }
 `;

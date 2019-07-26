@@ -12,6 +12,7 @@ const AnimationWrapper = styled.div`
     left: 50vw;
     top: 50vh;
     position: fixed;
+    z-index: -1;
 `
 
 export default function Background({ children, ...props }) {
