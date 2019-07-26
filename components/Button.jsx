@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
-export const Button = styled.button`
+import { DotsLoader } from "./Loader";
+
+export function Button({ children, loading, ...props }) {
+    return <StyledButton {...props}>
+        {loading ? <DotsLoader /> : children}
+    </StyledButton>
+}
+
+const StyledButton = styled.button`
     border-radius: 5rem;
     padding: 0.25em 1rem;
 
@@ -75,6 +83,9 @@ function backgroundColor(props) {
     } else if (props.outlined || props.outline) {
         if (props.secondary) {
             return props.theme.button.outlined.secondary.backgroundColor;
+
+
+            
         } else {
             return props.theme.button.outlined.primary.backgroundColor;
         }
