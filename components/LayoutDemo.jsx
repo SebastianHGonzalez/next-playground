@@ -41,7 +41,8 @@ export default function LayoutDemo() {
                                     middleName: undefined,
                                     lastName: undefined,
                                     age: undefined,
-                                    phone: undefined,
+                                    cellphone: undefined,
+                                    workphone: undefined,
                                     email: undefined,
                                     expiration: undefined,
                                 }}
@@ -57,32 +58,68 @@ export default function LayoutDemo() {
                                     })
                                 }
                             >
-                                <Form>
-                                    <Field
-                                        component={TextField} name="firstName" />
-                                    <Field
-                                        component={TextField} name="middleName" optional />
-                                        <Field
-                                            component={TextField} name="lastName" />
+                                    {({ isSubmitting }) => (
+                                        <Form>
                                             <Field
-                                                component={NumericField} name="age" />
-                                                <Field
-                                                    component={TelephonicField} name="phone" />
-                                                <Field
-                                                    component={EmailField} name="email" />
-                                                    <Field
-                                                        component={DateField} name="expiration" />
-                                    <button type="submit">submit</button>
-                                </Form>
+                                                component={TextField}
+                                                formName="onboarding.personalData"
+                                                name="firstName"
+                                            />
+                                            <Field
+                                                component={TextField}
+                                                formName="onboarding.personalData"
+                                                name="middleName"
+                                                optional
+                                            />
+                                            <Field
+                                                component={TextField}
+                                                formName="onboarding.personalData"
+                                                name="lastName"
+                                            />
+                                            <Field
+                                                component={NumericField}
+                                                formName="onboarding.personalData"
+                                                name="age"
+                                            />
+                                            <Field
+                                                component={TelephonicField}
+                                                formName="onboarding.personalData"
+                                                name="cellphone"
+                                            />
+                                            <Field
+                                                component={TelephonicField}
+                                                formName="onboarding.personalData"
+                                                name="workphone"
+                                                optional
+                                            />
+                                            <Field
+                                                component={EmailField}
+                                                formName="onboarding.personalData"
+                                                name="email"
+                                            />
+                                            <Field
+                                                component={DateField}
+                                                formName="onboarding.personalData"
+                                                name="expiration"
+                                            />
+                                            <Button 
+                                                loading={isSubmitting}
+                                                type="submit" 
+                                                large 
+                                            >
+                                                Submit
+                                            </Button>
+                                        </Form>
+                                    )}
                             </Formik>
                         </Main>
                         <Actions>
-                            <Button large >
-                                Continuar
-                        </Button>
+                            <Button large bold>
+                                large bold filled primary
+                            </Button>
                             <Button outline secondary>
-                                Cancelar
-                        </Button>
+                                outlined secondary
+                            </Button>
                         </Actions>
                     </Body>
                 </Layout>
