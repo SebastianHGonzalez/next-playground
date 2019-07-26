@@ -50,7 +50,7 @@ function color(props) {
         } else {
             return props.theme.button.flat.primary.color;
         }
-    } else if (props.outlined) {
+    } else if (props.outlined || props.outline) {
         if (props.secondary) {
             return props.theme.button.outlined.secondary.color;
         } else {
@@ -72,7 +72,7 @@ function backgroundColor(props) {
         } else {
             return props.theme.button.flat.primary.backgroundColor;
         }
-    } else if (props.outlined) {
+    } else if (props.outlined || props.outline) {
         if (props.secondary) {
             return props.theme.button.outlined.secondary.backgroundColor;
         } else {
@@ -94,7 +94,7 @@ function borderColor(props) {
         } else {
             return props.theme.button.flat.primary.borderColor;
         }
-    } else if (props.outlined) {
+    } else if (props.outlined || props.outline) {
         if (props.secondary) {
             return props.theme.button.outlined.secondary.borderColor;
         } else {
