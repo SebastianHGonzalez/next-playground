@@ -6,6 +6,13 @@ export const colors = {
     secondaryContrast: "white",
     background: "transparent"
   },
+  dark: {
+    primary: "purple",
+    primaryContrast: "white",
+    secondary: "darkblue",
+    secondaryContrast: "white",
+    background: "rgba(41, 41, 41, 0.5)"
+  },
 
   error: {
     primary: "#D8000C",

@@ -26,7 +26,7 @@ export const Title = styled.h1`
     margin: auto;
 `;
 
-export const Body = styled.body`
+export const Body = styled.div`
     grid-area: body;
 
     display: flex;
