@@ -35,6 +35,8 @@ export default function LayoutDemo() {
                     <Body>
                         <Main>
                             <Formik
+                                validateOnBlur={false}
+                                validateOnChange={false}
                                 onSubmit={() => { debugger }}
                                 initialValues={{
                                     firstName: undefined,

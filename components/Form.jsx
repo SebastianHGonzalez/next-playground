@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import styled from "styled-components";
 import { ErrorMessage } from "formik";
 
@@ -33,23 +34,81 @@ export function GenericField({
     element: FieldElement,
     ...props
 }) {
+    const {
+        handleBlur,
+        handleChange,
+        handleReset,
+        handleSubmit,
+    } = form;
     const { name } = field;
+    const touched = form.touched[field.name];
 
     return (
-        <FormGroup collapseLabel={form.touched[field.name]}>
-            <FieldElement name={name} onChange={makeChangeHandler(form, field)} {...props} />
-            <FieldLabel formName={formName} name={name} optional={optional} />
-            <FieldError name={name} />
+        <FormGroup>
+            <FieldLabel collapse={touched} formName={formName} name={name} optional={optional} />
+            <FieldWrapper visible={touched}>
+                <FieldElement
+                    name={name}
+                    onChange={makeChangeHandler(form, field)}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    onReset={handleReset}
+                    onSubmit={handleSubmit}
+                    onFocus={makeFocusHandler(form, field)}
+                    {...props}
+                />
+            </FieldWrapper>
+            <FieldError collapse={touched} name={name} />
         </FormGroup>
     )
+}
+
+const FieldWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    & * {
+        font-size: large;
+    }
+
+    & * {
+        background-color: transparent;
+        border: 0;
+    }
+
+    transition: opacity 200ms ease-in-out;
+    ${({ visible }) => `opacity: ${visible ? 1 : 0};`}
+
+    &:focus {
+        opacity: 1;
+    }
+`;
+
+const Label = styled.label`    
+    position absolute;
+    pointer-events: none;
+    
+    ${({ collapse }) => collapse ?
+        `top: 0.2rem`:
+        `top: calc(50% - 0.5rem);` 
+    }
+    transition: top 200ms ease-in-out;
+`
+
+function makeFocusHandler({ setTouched, touched }, { name }) {
+    return function () {
+        setTouched({ ...touched, [name]: true })
+    }
 }
 
 function makeChangeHandler({ handleChange, setTouched, touched }, { name }) {
     return function (e) {
         const value = (e && e.target && e.target.value) || e
 
-        setTouched({...touched, [name]: true})
-        handleChange({target: {value, name}})
+        setTouched({ ...touched, [name]: true })
+        handleChange({ target: { value, name } })
     }
 }
 
@@ -64,53 +123,7 @@ const FormGroup = styled.div`
     form > & {
         margin: 1rem auto;
     }
-
-    & input {
-        border: 0;
-        background-color: transparent;
-        padding: 0.5rem;
-        margin-top: 1rem;
-
-        transition: opacity 200ms ease-in-out;
-        ${({ collapseLabel }) => `opacity: ${collapseLabel ? 1 : 0};`}
-
-        &:focus {
-            opacity: 1;
-        }
-    }
-
-
-    & label {
-        position absolute;
-        pointer-events: none;
-
-        transform-origin: top left;
-        ${({ collapseLabel }) => collapseLabel ?
-        labelCollapsed :
-        labelExtended
-        }
-
-        transition: transform 200ms ease-in-out;
-
-        &#error {
-            right: 0;
-            padding-right: 1rem;
-            transform-origin: top right;
-        }
-    }
-
-    & > input:focus ~ label {
-        ${() => labelCollapsed}
-    }
-
-    & > span {
-        transform-origin: bottom left;
-        transform: scale(0.75);
-    }
 `;
-
-const labelCollapsed = `transform: scale(0.75);`
-const labelExtended = `transform: translate(0, 1rem);`
 
 const OptionalLabelWrapper = styled.span`
     color: grey;
@@ -122,19 +135,30 @@ function OptionalLabel() {
     return <OptionalLabelWrapper>(<I18n id="global.optional" />)</OptionalLabelWrapper>
 }
 
-function FieldLabel({ formName, name, optional }) {
+function FieldLabel({ collapse, formName, name, optional }) {
     return (
-        <label htmlFor={name}>
+        <Label collapse={collapse} htmlFor={name}>
             <I18n id={`form.${formName}.${name}.label`} />
             {optional && <OptionalLabel />}
-        </label>
+        </Label>
     );
 }
 
-const FieldErrorComponent = styled.label`
+const ErrorLabel = styled.label`
     color: red;
+
+    position absolute;
+    pointer-events: none;
+
+    transform-origin: bottom left;
+
+    ${({ collapse }) => collapse ?
+        `bottom: 0.2rem; right: 0.4rem`:
+        `bottom: calc(50% - 0.5rem); opacity: 0` 
+    }
+    transition: bottom 200ms ease-in-out, opacity 200ms ease-in-out;
 `;
 
-function FieldError({ name }) {
-    return <FieldErrorComponent id="error" htmlFor={name}><ErrorMessage name={name} /></FieldErrorComponent>;
+function FieldError({ collapse, name }) {
+    return <ErrorLabel collapse={collapse} id="error" htmlFor={name}><ErrorMessage name={name} /></ErrorLabel>;
 }
